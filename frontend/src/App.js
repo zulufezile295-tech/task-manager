@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import Register from "./Register";
 import Login from "./Login";
 import TaskPage from "./TaskPage";
+import "./App.css";
 
 function App() {
-  const [stage, setStage] = useState("register"); // register | login | tasks
+  const [stage, setStage] = useState("register"); // register | login | tasks | profile
   const [currentUser, setCurrentUser] = useState(null);
 
   const handleLogout = () => {
     setCurrentUser(null);
-    setStage("login"); // send user back to login
+    setStage("login");
   };
 
   return (
@@ -21,9 +22,7 @@ function App() {
           <Register onRegistered={() => setStage("login")} />
           <p>
             Already have an account?{" "}
-            <button onClick={() => setStage("login")}>
-              Login
-            </button>
+            <button onClick={() => setStage("login")}>Login</button>
           </p>
         </>
       )}
@@ -39,17 +38,20 @@ function App() {
           />
           <p>
             Don’t have an account?{" "}
-            <button onClick={() => setStage("register")}>
-              Register
-            </button>
+            <button onClick={() => setStage("register")}>Register</button>
           </p>
         </>
       )}
 
       {stage === "tasks" && (
         <>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}>
             <h2>Welcome to Your Task Manager</h2>
+
             <button onClick={handleLogout}>
               Logout
             </button>
@@ -58,6 +60,8 @@ function App() {
           <TaskPage currentUser={currentUser} />
         </>
       )}
+
+
 
     </div>
   );

@@ -4,12 +4,10 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-/*
-   REGISTER
-*/
+// REGISTER
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { name, surname, email, location, password } = req.body;
 
     const exists = await User.findOne({ email });
     if (exists) {
@@ -19,22 +17,24 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
+      name,
+      surname,
       email,
-      password: hashedPassword,
+      location,
+      password: hashedPassword
     });
 
     await user.save();
 
     res.json({ message: "User registered" });
+
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-/*
-   LOGIN
-*/
+// LOGIN
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -49,12 +49,15 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    res.json({
-      user: {
-        _id: user._id,
-        email: user.email,
-      },
-    });
+  res.json({
+  user: {
+    _id: user._id,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    location: user.location,
+  },
+});
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });

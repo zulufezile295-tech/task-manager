@@ -25,6 +25,10 @@ const taskSchema = new mongoose.Schema({
     type: String,
   },
 
+  estimatedWeather: {
+    type: String,
+  },
+
   completed: {
     type: Boolean,
     default: false,

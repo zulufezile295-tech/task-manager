@@ -8,20 +8,27 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+// middleware
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 
-// Connect routes
+// routes
 app.use("/tasks", taskRoutes);
 app.use("/auth", authRoutes);
 
-const PORT = process.env.PORT || 5000;
-
-// Connect to MongoDB
+// connect DB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
+  .catch(err => console.log("MongoDB connection error:", err));
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+const weatherRoutes = require("./routes/weatherRoutes");
+app.use("/weather", weatherRoutes);

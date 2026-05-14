@@ -3,9 +3,9 @@ const Task = require("../models/Task");
 
 const router = express.Router();
 
-/*
-GET TASKS FOR A SPECIFIC USER
-*/
+
+//GET TASKS FOR A SPECIFIC USER
+
 router.get("/:userId", async (req, res) => {
   try {
     const tasks = await Task.find({ user: req.params.userId });
@@ -16,13 +16,9 @@ router.get("/:userId", async (req, res) => {
 });
 
 
-/*
 
-CREATE NEW TASK
-
-*/
+//CREATE NEW TASK
 router.post("/", async (req, res) => {
-  console.log("Request body:", req.body);
   try {
     const { title, date, time, priority, notes, userId } = req.body;
 
@@ -36,7 +32,6 @@ router.post("/", async (req, res) => {
     });
 
     const savedTask = await newTask.save();
-    console.log("Saved task:", savedTask); // Here, log saved task
     res.status(201).json(savedTask);
   } catch (err) {
     console.log("Error:", err); // Add this to see the error if it occurs
@@ -45,11 +40,8 @@ router.post("/", async (req, res) => {
 });
 
 
-/*
-=====================================
-TOGGLE TASK COMPLETED
-=====================================
-*/
+//TOGGLE TASK COMPLETED
+
 router.put("/:id", async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
@@ -68,11 +60,7 @@ router.put("/:id", async (req, res) => {
 });
 
 
-/*
-=====================================
-DELETE TASK
-=====================================
-*/
+//DELETE TASK
 router.delete("/:id", async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
